@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  mongo:
+    container_name: mongo-payment
+    image: mongo:4.4
+    restart: always
+    ports:
+      - "27021:27017" # Mapping Host 27021 to Container 27017
+    networks:
+      - app-network
+
+  goapp:
+    build: .
+    container_name: payment-service-goapp
+    ports:
+      - "8082:8082" # Maps your host 8082 to container 8082
+    depends_on:
+      - mongo
+    environment:
+      # Keep the internal host name as 'mongo' to match the service name above
+      - MONGO_URI=mongodb://mongo-payment:27017/
+      - STRIPE_API=sk_test_your_key_here
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge

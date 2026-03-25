@@ -1,0 +1,12 @@
+version: '3.8'
+services:
+  notification-service:
+    build: .
+    container_name: notification-service-goapp
+    ports:
+      - "8086:8084" # Note: Changed host mapping to match your internal port 8084
+    environment:
+      - Account_SID=dummy_value
+      - Auth_Token=dummy_value
+      - PhoneNumber=+123456789
+    restart: always

@@ -1,0 +1,17 @@
+services:
+  mongo:
+    container_name: mongo-cart
+    image: mongo:4.4
+    restart: always
+    ports: 
+      - "27023:27023"
+
+  goapp:
+    build: .
+    container_name: goapp-cart
+    ports: 
+      - "8085:8085"
+    depends_on:
+      - mongo
+    environment:
+      - MONGO_URI=mongodb://mongo:27017/
