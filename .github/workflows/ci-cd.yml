@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        services: [api-gateway, cart-service, user-service, order-service, payment-service, product-service, notification-service]
+        services: [cart-service, user-service, order-service, payment-service, product-service, notification-service]
 
     steps:
       - name: Checkout code
@@ -31,3 +31,14 @@ jobs:
          cd ${{ matrix.service }} 
          go vet ./...
          go test -v ./...
+
+  validate-gateway:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Check Nginx Config
+        uses: citrus360/nginx-check-action@v1.1
+        with:
+          conf_file './nginx.conf'
