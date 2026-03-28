@@ -28,6 +28,6 @@ jobs:
 
       - name: Go Vet & Test
         run: |
-         cd $ {{ matrix.service }} 
+         cd ${{ matrix.service }} 
          go vet ./...
          go test -v ./...
