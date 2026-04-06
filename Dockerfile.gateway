@@ -1,0 +1,11 @@
+# Utilise l'image Nginx la plus légère
+FROM nginx:alpine
+
+# Supprime la configuration par défaut qui pourrait entrer en conflit
+RUN rm /etc/nginx/conf.d/default.conf
+
+# Copie TON nginx.conf dans le dossier de configuration de Nginx
+COPY nginx.conf /etc/nginx/nginx.conf
+
+# Expose le port 80 pour que le trafic puisse entrer
+EXPOSE 80
