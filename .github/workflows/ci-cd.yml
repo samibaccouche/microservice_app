@@ -111,29 +111,7 @@ jobs:
               ${{ secrets.DOCKERHUB_USERNAME }}/api-gateway:${{ github.sha }}
   deploy-to-aks:
       runs-on: ubuntu-latest
-      needs: [build-and-push-microservices, build-and-push-gateway] # S'assure que les images sont prêtes avant
-      steps:
-        - name: Checkout code
-          uses: actions/checkout@v4
-
-        - name: Set Kubernetes Context
-          uses: azure/k8s-set-context@v3
-          with:
-            method: kubeconfig
-            kubeconfig: ${{ secrets.KUBE_CONFIG }}
-
-      #  - name: Deploy to AKS
-        #  run: |
-          # 1. Créer le namespace s'il n'existe pas
-         #   kubectl create namespace micro-app --dry-run=client -o yaml | kubectl apply -f -
-          
-          # 2. Appliquer tous tes fichiers YAML (assure-toi d'avoir un dossier k8s/)
-          #  kubectl apply -f k8s/ -n micro-app
-          # waiting for the helm and k8s manifest
-  deploy-to-aks:
-      runs-on: ubuntu-latest
-    # On attend que TOUTES les images (microservices + gateway) soient sur le Docker Hub
-      needs: [build-and-push-microservices, build-and-push-gateway] 
+      needs: [build-and-push-microservices, build-and-push-gateway]
       steps:
         - name: Checkout code
           uses: actions/checkout@v4
@@ -150,14 +128,11 @@ jobs:
 
         - name: Update and Deploy Manifests
           run: |
-          # Cette commande remplace le tag 'latest' par le tag précis du commit actuel ${{ github.sha }}
-          # dans tous les fichiers du dossier k8s/ avant de les appliquer.
-          # C'est la méthode "Clean" pour forcer Kubernetes à mettre à jour les pods.
-          
-            sed -i "s|image: ${{ secrets.DOCKERHUB_USERNAME }}/\(.*\):latest|image: ${{ secrets.DOCKERHUB_USERNAME }}/\1:${{ github.sha }}|g" k8s/*.yaml
-          
+            DOCK_USER=${{ secrets.DOCKERHUB_USERNAME }}
+            TAG=${{ github.sha }}
+            sed -i "s|image: $DOCK_USER/\(.*\):latest|image: $DOCK_USER/\1:$TAG|g" k8s/*.yaml
             kubectl apply -f k8s/ -n micro-app
-          
+
         - name: Verify Deployment
           run: |
             kubectl get pods -n micro-app
