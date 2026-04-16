@@ -85,8 +85,8 @@ jobs:
             push: true
           # Remplace 'ton-user-docker' par ton vrai pseudo Docker Hub
             tags: |
-            ${{ secrets.DOCKERHUB_USERNAME }}/${{ matrix.service }}:${{ github.sha }}
-            ${{ secrets.DOCKERHUB_USERNAME }}/${{ matrix.service }}:latest
+              ${{ secrets.DOCKERHUB_USERNAME }}/${{ matrix.service }}:${{ github.sha }}
+              ${{ secrets.DOCKERHUB_USERNAME }}/${{ matrix.service }}:latest
 
 
 
