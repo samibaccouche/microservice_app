@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: user-service
-        image: samibaccouche/user-service:latest # Ton image Docker Hub
+        image: samibaccouche9981/user-service:latest # Ton image Docker Hub
         ports:
         - containerPort: 8080
 ---
