@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: notification-service
+  namespace: micro-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: notification-service
+  template:
+    metadata:
+      labels:
+        app: notification-service
+    spec:
+      containers:
+      - name: notification-service
+        image: samibaccouche9981/notification-service:latest
+        ports:
+        - containerPort: 8081 # Port interne d'après ton docker-compose
+        envFrom:
+        - secretRef:
+            name: notification-secrets # On injecte toutes les clés du secret d'un coup
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: notification-service
+  namespace: micro-app
+spec:
+  selector:
+    app: notification-service
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8081
