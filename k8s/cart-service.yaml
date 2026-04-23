@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cart-service
+  namespace: micro-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cart-service
+  template:
+    metadata:
+      labels:
+        app: cart-service
+    spec:
+      containers:
+      - name: cart-service
+        image: samibaccouche/cart-service:latest # Vérifie bien le nom sur Docker Hub
+        ports:
+        - containerPort: 8085 # Ton docker-compose indiquait 8085 en interne
+        env:
+        - name: MONGO_URI
+          value: "mongodb://mongo-cart:27017/"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: cart-service
+  namespace: micro-app
+spec:
+  selector:
+    app: cart-service
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8085
