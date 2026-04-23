@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: product-service
+  namespace: micro-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: product-service
+  template:
+    metadata:
+      labels:
+        app: product-service
+    spec:
+      containers:
+      - name: product-service
+        image: samibaccouche9981/product-service:latest
+        ports:
+        - containerPort: 8081
+        env:
+        - name: MONGO_URI
+          value: "mongodb://mongo-product:27017/productdb"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: product-service
+  namespace: micro-app
+spec:
+  selector:
+    app: product-service
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8081

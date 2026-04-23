@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: payment-service
+  namespace: micro-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: payment-service
+  template:
+    metadata:
+      labels:
+        app: payment-service
+    spec:
+      containers:
+      - name: payment-service
+        image: samibaccouche9981/payment-service:latest
+        ports:
+        - containerPort: 8082 # Port interne d'après ton docker-compose
+        env:
+        - name: MONGO_URI
+          value: "mongodb://mongo-payment:27017/"
+        envFrom:
+        - secretRef:
+            name: payment-secrets
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: payment-service
+  namespace: micro-app
+spec:
+  selector:
+    app: payment-service
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8082
