@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mongo-cart
+  namespace: micro-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mongo-cart
+  template:
+    metadata:
+      labels:
+        app: mongo-cart
+    spec:
+      containers:
+      - name: mongo-cart
+        image: mongo:4.4
+        ports:
+        - containerPort: 27017
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mongo-cart # Ce nom est crucial car l'app l'utilise dans sa MONGO_URI
+  namespace: micro-app
+spec:
+  selector:
+    app: mongo-cart
+  ports:
+    - protocol: TCP
+      port: 27017
+      targetPort: 27017
