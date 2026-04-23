@@ -28,7 +28,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: payment-service
+  name: goapp-payment
   namespace: micro-app
 spec:
   selector:

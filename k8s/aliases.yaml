@@ -1,0 +1,53 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: goapp-user
+  namespace: micro-app
+spec:
+  type: ExternalName
+  externalName: user-service.micro-app.svc.cluster.local
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: goapp-cart
+  namespace: micro-app
+spec:
+  type: ExternalName
+  externalName: cart-service.micro-app.svc.cluster.local
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: goapp-product
+  namespace: micro-app
+spec:
+  type: ExternalName
+  externalName: product-service.micro-app.svc.cluster.local
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: goapp-order
+  namespace: micro-app
+spec:
+  type: ExternalName
+  externalName: order-service.micro-app.svc.cluster.local
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: goapp-payment
+  namespace: micro-app
+spec:
+  type: ExternalName
+  externalName: payment-service.micro-app.svc.cluster.local
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: goapp-notification
+  namespace: micro-app
+spec:
+  type: ExternalName
+  externalName: notification-service.micro-app.svc.cluster.local

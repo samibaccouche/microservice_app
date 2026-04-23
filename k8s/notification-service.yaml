@@ -17,7 +17,7 @@ spec:
       - name: notification-service
         image: samibaccouche9981/notification-service:latest
         ports:
-        - containerPort: 8081 # Port interne d'après ton docker-compose
+        - containerPort: 8084 # Port interne d'après ton docker-compose
         envFrom:
         - secretRef:
             name: notification-secrets # On injecte toutes les clés du secret d'un coup
@@ -25,7 +25,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: notification-service
+  name: goapp-notification
   namespace: micro-app
 spec:
   selector:
@@ -33,4 +33,4 @@ spec:
   ports:
     - protocol: TCP
       port: 80
-      targetPort: 8081
+      targetPort: 8084
