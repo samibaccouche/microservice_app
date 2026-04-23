@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: user-service
-        image: samibaccouche/user-service:latest
+        image: samibaccouche9981/user-service:latest
         ports:
         - containerPort: 8080 # Port interne d'après ton docker-compose (8082:8080)
         env:
