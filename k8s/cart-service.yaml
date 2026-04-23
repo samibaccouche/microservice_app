@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: cart-service
-        image: samibaccouche/cart-service:latest # Vérifie bien le nom sur Docker Hub
+        image: samibaccouche9981/cart-service:latest # Vérifie bien le nom sur Docker Hub
         ports:
         - containerPort: 8085 # Ton docker-compose indiquait 8085 en interne
         env:
